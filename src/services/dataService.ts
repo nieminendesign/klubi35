@@ -117,10 +117,18 @@ export const dataService = {
 
         // NOTE: The client never seeds Firestore (security rules only allow admins to write groups etc.).
         // Use `functions/scripts/bootstrap.mjs` once to create the initial groups and the first admin.
-        const loadedCourse =
+        const firstCourse =
           coursesSnap.docs.length > 0
             ? (coursesSnap.docs[0].data() as CourseConfig)
-            : structuredClone(SEED_COURSE_CONFIG);
+            : null;
+        const loadedCourse: CourseConfig = {
+          ...SEED_COURSE_CONFIG,
+          ...firstCourse,
+          holes:
+            Array.isArray(firstCourse?.holes) && firstCourse.holes.length > 0
+              ? firstCourse.holes
+              : SEED_COURSE_CONFIG.holes,
+        };
 
         return {
           groups: groupsSnap.docs.map((d) => d.data() as TrainingGroup),

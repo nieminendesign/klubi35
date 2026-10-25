@@ -222,12 +222,13 @@ export const PlayScorecardView: React.FC = () => {
 
   const activeHolesSlice = holes.slice(0, holesToPlay);
   const activeHole = holes[activeHoleIndex] || holes[0];
+  const courseHoles = courseConfig?.holes || [];
   const courseHole =
-    courseConfig.holes.find((ch) => ch.holeNumber === activeHole.holeNumber) ||
-    courseConfig.holes[0];
+    courseHoles.find((ch) => ch.holeNumber === activeHole.holeNumber) ||
+    courseHoles[0];
   const activeTeeSpot =
-    courseHole?.teeSpots.find((ts) => ts.divisionLevel === divisionLevel) ||
-    courseHole?.teeSpots[0];
+    courseHole?.teeSpots?.find((ts) => ts.divisionLevel === divisionLevel) ||
+    courseHole?.teeSpots?.[0];
 
   const recordedHoles = activeHolesSlice.filter((h) => h.recorded);
   const playedHolesCount = recordedHoles.length;

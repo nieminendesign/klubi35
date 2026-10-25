@@ -112,7 +112,7 @@ export interface Scorecard {
 export const JARVENRANTA_DEFAULT_PARS = [4, 3, 4, 4, 3, 5, 4, 4, 4] as const;
 
 export function getDefaultHolePar(holeNumber: number, course?: CourseConfig): number {
-  const fromCourse = course?.holes.find((h) => h.holeNumber === holeNumber)?.officialPar;
+  const fromCourse = course?.holes?.find((h) => h.holeNumber === holeNumber)?.officialPar;
   if (fromCourse) return fromCourse;
   return JARVENRANTA_DEFAULT_PARS[holeNumber - 1] ?? 4;
 }

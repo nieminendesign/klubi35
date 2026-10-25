@@ -38,7 +38,7 @@ jobs:
           VITE_FIREBASE_APP_ID: ${{ secrets.VITE_FIREBASE_APP_ID }}
 
       - name: Deploy to Firebase Hosting Preview Channel (PR)
-        if: github.event_name == 'pull_request'
+        if: github.event_name == 'pull_request' && secrets.FIREBASE_SERVICE_ACCOUNT_KLUBI35 != ''
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
@@ -46,7 +46,7 @@ jobs:
           projectId: klubi35
 
       - name: Deploy to Firebase Hosting Live Channel (main)
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main' && secrets.FIREBASE_SERVICE_ACCOUNT_KLUBI35 != ''
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}

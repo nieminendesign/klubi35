@@ -762,11 +762,10 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
           const fresh = await dataService.fetchAllData();
           setUsers(fresh.users);
           showToast(t('admin.inviteSentToast', { email: input.email!.trim() }), 'success');
+          return;
         } catch (err) {
-          console.error('Invite failed:', err);
-          showToast(t('admin.inviteFailedToast'), 'warning');
+          console.error('Invite via Cloud Function failed, falling back to direct Firestore profile creation:', err);
         }
-        return;
       }
       const newUser: User = {
         id: `${input.role}-${Date.now()}`,

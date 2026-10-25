@@ -35,7 +35,11 @@ export const authService = {
     }
     const callable = httpsCallable<typeof input, { uid: string }>(functions, 'inviteUser');
     const res = await callable(input);
-    await sendPasswordResetEmail(auth, input.email.trim());
+    try {
+      await sendPasswordResetEmail(auth, input.email.trim());
+    } catch (resetErr) {
+      console.warn('Password reset invite email failed or was skipped:', resetErr);
+    }
     return res.data.uid;
   },
 

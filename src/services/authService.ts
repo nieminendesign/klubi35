@@ -4,19 +4,44 @@ import {
   createUserWithEmailAndPassword,
   updateProfile,
   signOut as firebaseSignOut,
+  sendPasswordResetEmail,
+  verifyPasswordResetCode as firebaseVerifyPasswordResetCode,
+  confirmPasswordReset as firebaseConfirmPasswordReset,
 } from 'firebase/auth';
 import type { User as FirebaseUser } from 'firebase/auth';
-import { sendPasswordResetEmail } from 'firebase/auth';
 import { httpsCallable } from 'firebase/functions';
 import { auth, functions, googleProvider, isFirebaseConfigured } from '../config/firebase';
 import type { User, UserRole } from '../types/models';
+
+function buildPasswordActionSettings(email: string) {
+  const origin =
+    typeof window !== 'undefined' && window.location?.origin
+      ? window.location.origin
+      : 'https://klubi35.web.app';
+  return {
+    url: `${origin}/?passwordSet=1&email=${encodeURIComponent(email.trim().toLowerCase())}`,
+    handleCodeInApp: false,
+  };
+}
 
 export const authService = {
   /** Live mode: Firebase sends a password-reset e-mail. Local sandbox: no-op (returns false). */
   async sendPasswordReset(email: string): Promise<boolean> {
     if (!(isFirebaseConfigured && auth)) return false;
-    await sendPasswordResetEmail(auth, email.trim());
+    await sendPasswordResetEmail(auth, email.trim(), buildPasswordActionSettings(email));
     return true;
+  },
+
+  /** Verify a Firebase password-reset oobCode and return the associated e-mail address. */
+  async verifyPasswordResetCode(oobCode: string): Promise<string> {
+    if (!auth) throw new Error('Firebase Auth is not configured');
+    return firebaseVerifyPasswordResetCode(auth, oobCode);
+  },
+
+  /** Confirm a new password using a Firebase password-reset oobCode. */
+  async confirmPasswordReset(oobCode: string, newPassword: string): Promise<void> {
+    if (!auth) throw new Error('Firebase Auth is not configured');
+    await firebaseConfirmPasswordReset(auth, oobCode, newPassword);
   },
 
   /**
@@ -36,7 +61,11 @@ export const authService = {
     const callable = httpsCallable<typeof input, { uid: string }>(functions, 'inviteUser');
     const res = await callable(input);
     try {
-      await sendPasswordResetEmail(auth, input.email.trim());
+      await sendPasswordResetEmail(
+        auth,
+        input.email.trim(),
+        buildPasswordActionSettings(input.email)
+      );
     } catch (resetErr) {
       console.warn('Password reset invite email failed or was skipped:', resetErr);
     }

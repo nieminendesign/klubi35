@@ -1786,12 +1786,28 @@ export const AdminPortalView: React.FC = () => {
               <TextField
                 type="email"
                 label={t('admin.userEmailLabel')}
-                placeholder="pelaaja@club36.fi"
+                placeholder={t('admin.userEmailPlaceholder')}
                 value={newUserEmail}
                 onChange={(e) => setNewUserEmail(e.target.value)}
                 fullWidth
                 size="small"
               />
+
+              <Box
+                sx={{
+                  p: 1.25,
+                  borderRadius: 1,
+                  bgcolor: 'action.hover',
+                  border: '1px solid var(--mui-palette-divider)',
+                }}
+              >
+                <Typography
+                  variant="caption"
+                  sx={{ color: 'text.secondary', display: 'block' }}
+                >
+                  {t('admin.inviteHelperText')}
+                </Typography>
+              </Box>
 
               <FormControl fullWidth size="small">
                 <InputLabel>{t('admin.userRoleLabel')}</InputLabel>

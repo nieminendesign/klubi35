@@ -13,6 +13,7 @@ import { PlayScorecardView } from './views/PlayScorecardView';
 import { CoachPortalView } from './views/CoachPortalView';
 import { AdminPortalView } from './views/AdminPortalView';
 import { LeaderboardView } from './views/LeaderboardView';
+import { AuthActionView } from './views/AuthActionView';
 
 const RoleRouteGuard: React.FC<{
   allowedRoles: UserRole[];
@@ -28,6 +29,16 @@ const RoleRouteGuard: React.FC<{
 const ThemedAppShell: React.FC = () => {
   const { language, isAuthenticated, loading } = useApp();
   const theme = useMemo(() => buildAppTheme(language), [language]);
+
+  // Branded email action handler (/auth-action) runs even while unauthenticated or logged in as another user.
+  if (window.location.pathname === '/auth-action') {
+    return (
+      <ThemeProvider theme={theme} defaultMode="dark">
+        <CssBaseline />
+        <AuthActionView />
+      </ThemeProvider>
+    );
+  }
 
   // Live Firebase mode: nothing is shown until the user has signed in (Firestore requires auth).
   if (!isAuthenticated) {

@@ -118,14 +118,14 @@ exports.onScorecardVerified = (0, firestore_1.onDocumentUpdated)({
 exports.weeklyTrainingSummaryAndSessionGenerator = (0, scheduler_1.onSchedule)({
     schedule: 'every monday 07:00',
     timeZone: 'Europe/Helsinki',
-    region: 'europe-north1',
+    region: 'europe-west1',
 }, async () => {
-    logger.info('Executing weekly training summary & recurring session check for Club 36...');
+    logger.info('Executing weekly training summary & recurring session check for Club 35...');
     const scorecardsSnap = await db
         .collection('scorecards')
         .where('passedDivision', '==', true)
         .limit(20)
         .get();
-    logger.info(`Found ${scorecardsSnap.size} passed division rounds in Club 36 records.`);
+    logger.info(`Found ${scorecardsSnap.size} passed division rounds in Club 35 records.`);
 });
 //# sourceMappingURL=index.js.map

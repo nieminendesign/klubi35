@@ -229,6 +229,8 @@ export const PlayScorecardView: React.FC = () => {
   const activeTeeSpot =
     courseHole?.teeSpots?.find((ts) => ts.divisionLevel === divisionLevel) ||
     courseHole?.teeSpots?.[0];
+  const activeHolePar = courseHole?.officialPar || 4;
+  const activeHoleMaxApproach = Math.max(1, activeHolePar - 2);
 
   const recordedHoles = activeHolesSlice.filter((h) => h.recorded);
   const playedHolesCount = recordedHoles.length;
@@ -347,12 +349,17 @@ export const PlayScorecardView: React.FC = () => {
       <Card>
         <CardContent sx={{ p: { xs: 2.25, md: 2.75 } }}>
           <Stack spacing={2}>
-            <Stack direction="row" spacing={1.25} sx={{ alignItems: 'center' }}>
-              <SportsGolfIcon color="primary" />
-              <Typography variant="h5" sx={{ fontWeight: 800 }}>
-                {t('play.title')}
+            <Box>
+              <Stack direction="row" spacing={1.25} sx={{ alignItems: 'center' }}>
+                <SportsGolfIcon color="primary" />
+                <Typography variant="h5" sx={{ fontWeight: 800 }}>
+                  {t('play.title')}
+                </Typography>
+              </Stack>
+              <Typography variant="body2" sx={{ color: 'text.secondary', mt: 0.5 }}>
+                {t('play.setupHint')}
               </Typography>
-            </Stack>
+            </Box>
 
             <Grid container spacing={2} sx={{ alignItems: 'center' }}>
               {currentUser.role !== 'player' && (
@@ -750,9 +757,10 @@ export const PlayScorecardView: React.FC = () => {
                       icon={<CheckCircleIcon sx={{ fontSize: '15px !important' }} />}
                       label={
                         activeHole.gir
-                          ? t('play.girAchieved')
+                          ? t('play.girAchieved', { maxApproach: activeHoleMaxApproach })
                           : t('play.girMissed', {
                               approach: activeHole.strokes - activeHole.putts,
+                              maxApproach: activeHoleMaxApproach,
                             })
                       }
                       color={activeHole.gir ? 'primary' : 'default'}
@@ -1122,7 +1130,8 @@ export const PlayScorecardView: React.FC = () => {
                       </Typography>
                       <Typography variant="caption" sx={{ color: 'text.secondary' }}>
                         {t('play.girFormulaHint', {
-                          maxApproach: Math.max(1, (courseHole?.officialPar || 4) - 2),
+                          officialPar: activeHolePar,
+                          maxApproach: activeHoleMaxApproach,
                         })}
                       </Typography>
                     </Box>
@@ -1264,7 +1273,7 @@ export const PlayScorecardView: React.FC = () => {
                   </TableHead>
                   <TableBody>
                     {activeHolesSlice.map((h, idx) => {
-                      const ch = courseConfig.holes.find(
+                      const ch = courseHoles.find(
                         (c) => c.holeNumber === h.holeNumber
                       );
                       const holePar = ch?.officialPar || 4;

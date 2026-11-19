@@ -277,7 +277,12 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const changeLanguage = useCallback((lang: SupportedLanguage) => {
     setLanguage(lang);
     setAppLanguage(lang);
+    if (auth) auth.languageCode = lang;
   }, []);
+
+  useEffect(() => {
+    if (auth) auth.languageCode = language;
+  }, [language]);
 
   const signInWithEmail = useCallback(
     async (email: string, password: string): Promise<boolean> => {
@@ -561,9 +566,10 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         const nextScorecards = await dataService.saveScorecard(newScorecard, scorecards);
         setScorecards(nextScorecards);
         showToast(
-          `${player.name}: ${totalStrokes} ${t('dashboard.strokesUnit')} – ${t(
-            'dashboard.pendingVerification'
-          )}`,
+          t('play.roundSavedPendingToast', {
+            name: player.name,
+            strokes: totalStrokes,
+          }),
           'info'
         );
         return newScorecard;

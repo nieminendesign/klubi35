@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
+  Alert,
   Dialog,
   DialogTitle,
   DialogContent,
@@ -49,12 +50,30 @@ export const AuthModal: React.FC<{
   // Sign-In state (demo credentials are only pre-filled in local sandbox mode)
   const [email, setEmail] = useState(isLiveFirebase ? '' : 'onni.virtanen@juniori.fi');
   const [password, setPassword] = useState(isLiveFirebase ? '' : 'club36demo');
+  const [passwordJustSet, setPasswordJustSet] = useState(false);
 
   // Registration state
   const [regName, setRegName] = useState('');
   const [regEmail, setRegEmail] = useState('');
   const [regPassword, setRegPassword] = useState('');
   const [regGroupId, setRegGroupId] = useState('');
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const hasPasswordSet = params.get('passwordSet') === '1';
+    const paramEmail = params.get('email');
+
+    if (hasPasswordSet) {
+      setPasswordJustSet(true);
+      setTab('signin');
+    }
+    if (paramEmail && isLiveFirebase) {
+      setEmail(paramEmail);
+    }
+    if (hasPasswordSet || paramEmail) {
+      window.history.replaceState({}, '', window.location.pathname);
+    }
+  }, [isLiveFirebase]);
 
   const selectedGroupId = regGroupId || groups[0]?.id || '';
 
@@ -164,6 +183,9 @@ export const AuthModal: React.FC<{
           {tab === 'signin' ? (
             <Box component="form" onSubmit={handleEmailSignIn}>
               <Stack spacing={1.75}>
+                {passwordJustSet && (
+                  <Alert severity="success">{t('auth.passwordSetSuccessBanner')}</Alert>
+                )}
                 <TextField
                   label={t('auth.emailLabel')}
                   type="text"
@@ -201,11 +223,22 @@ export const AuthModal: React.FC<{
                 >
                   {t('auth.forgotPassword')}
                 </Button>
+                <Typography
+                  variant="caption"
+                  sx={{ textAlign: 'center', color: 'text.secondary', display: 'block' }}
+                >
+                  {t('auth.invitedHint')}
+                </Typography>
               </Stack>
             </Box>
           ) : (
             <Box component="form" onSubmit={handleEmailRegister}>
               <Stack spacing={1.75}>
+                <Alert severity="info" icon={false}>
+                  <Typography variant="caption" sx={{ display: 'block' }}>
+                    {t('auth.registerIntro')}
+                  </Typography>
+                </Alert>
                 <TextField
                   label={t('auth.nameLabel')}
                   placeholder={t('auth.namePlaceholder')}
@@ -218,7 +251,7 @@ export const AuthModal: React.FC<{
                 <TextField
                   label={t('auth.emailLabel')}
                   type="email"
-                  placeholder="pelaaja@juniori.fi"
+                  placeholder={t('auth.emailPlaceholder')}
                   value={regEmail}
                   onChange={(e) => setRegEmail(e.target.value)}
                   fullWidth
@@ -228,6 +261,7 @@ export const AuthModal: React.FC<{
                 <TextField
                   label={t('auth.passwordLabel')}
                   type="password"
+                  helperText={t('auth.registerPasswordHint')}
                   value={regPassword}
                   onChange={(e) => setRegPassword(e.target.value)}
                   fullWidth

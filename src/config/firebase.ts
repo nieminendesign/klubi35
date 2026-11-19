@@ -26,6 +26,7 @@ if (isFirebaseConfigured) {
   try {
     app = initializeApp(firebaseConfig);
     auth = getAuth(app);
+    auth.languageCode = 'fi';
     db = getFirestore(app);
     functions = getFunctions(app, 'europe-north1');
     googleProvider = new GoogleAuthProvider();

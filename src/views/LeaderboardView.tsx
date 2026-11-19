@@ -27,6 +27,7 @@ import { useTranslation } from 'react-i18next';
 import { useApp } from '../context/AppContext';
 import { getDivisionByLevel, getScorecardTarget } from '../types/models';
 import { formatLocalizedDate } from '../i18n/config';
+import { IconBadge } from '../components/IconBadge';
 
 export const LeaderboardView: React.FC = () => {
   const { t } = useTranslation();
@@ -69,22 +70,12 @@ export const LeaderboardView: React.FC = () => {
                 alignItems: { xs: 'flex-start', sm: 'center' },
               }}
             >
-              <Stack direction="row" spacing={1.75} sx={{ alignItems: 'center' }}>
-                <Box
-                  sx={{
-                    width: 44,
-                    height: 44,
-                    borderRadius: 1.25,
-                    bgcolor: 'rgba(16, 185, 129, 0.12)',
-                    border: '1px solid rgba(16, 185, 129, 0.35)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                  }}
-                >
-                  <EmojiEventsIcon sx={{ fontSize: 26, color: 'primary.main' }} />
-                </Box>
-                <Box>
+              <Stack direction="row" spacing={1.5} sx={{ alignItems: 'center' }}>
+                <IconBadge
+                  size="md"
+                  icon={<EmojiEventsIcon sx={{ fontSize: 24 }} />}
+                />
+                <Box sx={{ minWidth: 0 }}>
                   <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
                     <Typography variant={isTvMode ? 'h4' : 'h5'} sx={{ fontWeight: 800 }}>
                       {t('leaderboard.title')}
@@ -106,11 +97,13 @@ export const LeaderboardView: React.FC = () => {
                   >
                     <Chip
                       size="small"
+                      icon={<BoltIcon sx={{ fontSize: '14px !important', color: '#F59E0B !important' }} />}
                       label={t('leaderboard.subtitleBadgePoints')}
                       sx={{
                         height: 22,
                         fontSize: '0.72rem',
                         fontWeight: 700,
+                        whiteSpace: 'nowrap',
                         bgcolor: 'rgba(245, 158, 11, 0.1)',
                         color: '#F59E0B',
                         border: '1px solid rgba(245, 158, 11, 0.28)',
@@ -118,11 +111,13 @@ export const LeaderboardView: React.FC = () => {
                     />
                     <Chip
                       size="small"
+                      icon={<FlagIcon sx={{ fontSize: '14px !important', color: 'primary.main' }} />}
                       label={t('leaderboard.subtitleBadgePar')}
                       sx={{
                         height: 22,
                         fontSize: '0.72rem',
                         fontWeight: 700,
+                        whiteSpace: 'nowrap',
                         bgcolor: 'rgba(16, 185, 129, 0.1)',
                         color: 'primary.main',
                         border: '1px solid rgba(16, 185, 129, 0.28)',
@@ -151,20 +146,31 @@ export const LeaderboardView: React.FC = () => {
           {/* Left Column: XP & Training Attendance Leaderboard */}
           <Grid size={{ xs: 12, lg: 7 }}>
             <Card sx={{ height: '100%' }}>
-              <CardContent sx={{ p: { xs: 2.25, md: 3 } }}>
+              <CardContent sx={{ p: { xs: 2, md: 3 } }}>
                 <Stack
                   direction="row"
                   spacing={1}
                   sx={{ alignItems: 'center', mb: 2 }}
                 >
-                  <BoltIcon sx={{ color: '#F59E0B', fontSize: 22 }} />
+                  <IconBadge
+                    size="sm"
+                    color="#F59E0B"
+                    icon={<BoltIcon sx={{ fontSize: 18 }} />}
+                  />
                   <Typography variant="h6" sx={{ fontWeight: 700 }}>
                     {t('leaderboard.xpLeaderboardTitle')}
                   </Typography>
                 </Stack>
 
                 <TableContainer>
-                  <Table size={isTvMode ? 'medium' : 'small'}>
+                  <Table
+                    size={isTvMode ? 'medium' : 'small'}
+                    sx={{
+                      '& th, & td': {
+                        px: { xs: 0.75, sm: 1.5 },
+                      },
+                    }}
+                  >
                     <TableHead>
                       <TableRow>
                         <TableCell>{t('leaderboard.rank')}</TableCell>
@@ -183,6 +189,14 @@ export const LeaderboardView: React.FC = () => {
                         const primaryGroup = groups.find((g) =>
                           player.groupIds.includes(g.id)
                         );
+                        const rankColor =
+                          rank === 1
+                            ? '#F59E0B'
+                            : rank === 2
+                            ? '#CBD5E1'
+                            : rank === 3
+                            ? '#D97706'
+                            : 'text.secondary';
 
                         return (
                           <TableRow
@@ -197,10 +211,16 @@ export const LeaderboardView: React.FC = () => {
                             <TableCell
                               sx={{
                                 fontWeight: 800,
-                                color: rank <= 3 ? 'primary.main' : 'text.secondary',
+                                color: rankColor,
+                                whiteSpace: 'nowrap',
                               }}
                             >
-                              #{rank}
+                              <Stack direction="row" spacing={0.4} sx={{ alignItems: 'center' }}>
+                                {rank === 1 && (
+                                  <EmojiEventsIcon sx={{ fontSize: 15, color: '#F59E0B' }} />
+                                )}
+                                <span>#{rank}</span>
+                              </Stack>
                             </TableCell>
                             <TableCell>
                               <Typography variant="body2" sx={{ fontWeight: 700 }}>
@@ -215,10 +235,10 @@ export const LeaderboardView: React.FC = () => {
                                 </Typography>
                               )}
                             </TableCell>
-                            <TableCell>
+                            <TableCell sx={{ whiteSpace: 'nowrap' }}>
                               <Chip
                                 size="small"
-                                label={t(div.nameKey)}
+                                label={isTvMode ? t(div.nameKey) : t(div.shortLabelKey)}
                                 sx={{
                                   height: 22,
                                   fontSize: '0.72rem',
@@ -229,13 +249,17 @@ export const LeaderboardView: React.FC = () => {
                                 }}
                               />
                             </TableCell>
-                            <TableCell align="center" sx={{ fontWeight: 600 }}>
+                            <TableCell
+                              align="center"
+                              sx={{ fontWeight: 600, whiteSpace: 'nowrap' }}
+                            >
                               {player.attendanceCount}x
                             </TableCell>
                             <TableCell
                               align="right"
                               sx={{
                                 fontWeight: 800,
+                                whiteSpace: 'nowrap',
                                 color: rank <= 3 ? '#F59E0B' : 'text.primary',
                               }}
                             >
@@ -251,16 +275,19 @@ export const LeaderboardView: React.FC = () => {
             </Card>
           </Grid>
 
-          {/* Right Column: 36 Club Wall of Fame (Rounds <= 36) */}
+          {/* Right Column: Wall of Fame */}
           <Grid size={{ xs: 12, lg: 5 }}>
             <Card sx={{ height: '100%' }}>
-              <CardContent sx={{ p: { xs: 2.25, md: 3 } }}>
+              <CardContent sx={{ p: { xs: 2, md: 3 } }}>
                 <Stack
                   direction="row"
                   spacing={1}
-                  sx={{ alignItems: 'center', mb: 0.5 }}
+                  sx={{ alignItems: 'center', mb: 0.75 }}
                 >
-                  <AutoAwesomeIcon sx={{ color: 'primary.main', fontSize: 20 }} />
+                  <IconBadge
+                    size="sm"
+                    icon={<AutoAwesomeIcon sx={{ fontSize: 18 }} />}
+                  />
                   <Typography variant="h6" sx={{ fontWeight: 700 }}>
                     {t('leaderboard.wallOfFameTitle')}
                   </Typography>

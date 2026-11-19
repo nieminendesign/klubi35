@@ -23,7 +23,11 @@ import {
   Verified as VerifiedIcon,
   AccessTime as AccessTimeIcon,
   Place as PlaceIcon,
+  HowToReg as HowToRegIcon,
+  TrendingUp as TrendingUpIcon,
+  HourglassTop as HourglassTopIcon,
 } from '@mui/icons-material';
+import { IconBadge } from '../components/IconBadge';
 import { useTranslation } from 'react-i18next';
 import { useApp } from '../context/AppContext';
 import { getDivisionByLevel, getScorecardTarget } from '../types/models';
@@ -85,17 +89,20 @@ export const CoachPortalView: React.FC = () => {
               mb: 1.5,
             }}
           >
-            <Box>
-              <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
-                <FactCheckIcon color="primary" fontSize="small" />
-                <Typography variant="h5" sx={{ fontWeight: 800 }}>
+            <Stack direction="row" spacing={1.5} sx={{ alignItems: 'center' }}>
+              <IconBadge
+                size="md"
+                icon={<FactCheckIcon sx={{ fontSize: 22 }} />}
+              />
+              <Box sx={{ minWidth: 0 }}>
+                <Typography variant="h5" sx={{ fontWeight: 800, lineHeight: 1.15 }}>
                   {t('coach.title')}
                 </Typography>
-              </Stack>
-              <Typography variant="body2" sx={{ color: 'text.secondary', mt: 0.25 }}>
-                {t('coach.subtitle')}
-              </Typography>
-            </Box>
+                <Typography variant="body2" sx={{ color: 'text.secondary', mt: 0.3 }}>
+                  {t('coach.subtitle')}
+                </Typography>
+              </Box>
+            </Stack>
 
             {pendingScorecards.length > 0 && (
               <Chip
@@ -105,7 +112,7 @@ export const CoachPortalView: React.FC = () => {
                   count: pendingScorecards.length,
                 })}
                 onClick={() => setActiveTab(1)}
-                sx={{ fontWeight: 700, cursor: 'pointer' }}
+                sx={{ fontWeight: 700, cursor: 'pointer', whiteSpace: 'nowrap', flexShrink: 0 }}
               />
             )}
           </Stack>
@@ -116,8 +123,15 @@ export const CoachPortalView: React.FC = () => {
             variant="scrollable"
             scrollButtons="auto"
           >
-            <Tab label={t('coach.tabSessions')} sx={{ fontWeight: 700 }} />
             <Tab
+              icon={<HowToRegIcon fontSize="small" />}
+              iconPosition="start"
+              label={t('coach.tabSessions')}
+              sx={{ fontWeight: 700 }}
+            />
+            <Tab
+              icon={<TrendingUpIcon fontSize="small" />}
+              iconPosition="start"
               label={`${t('coach.tabProgression')} (${pendingScorecards.length})`}
               sx={{ fontWeight: 700 }}
             />
@@ -140,13 +154,24 @@ export const CoachPortalView: React.FC = () => {
               {t('coach.quickAttendanceInfo')}
             </Typography>
 
-            <Stack direction="row" spacing={0.75} useFlexGap sx={{ flexWrap: 'wrap' }}>
+            <Stack
+              direction="row"
+              spacing={0.75}
+              useFlexGap
+              sx={{
+                flexWrap: { xs: 'nowrap', sm: 'wrap' },
+                overflowX: { xs: 'auto', sm: 'visible' },
+                width: { xs: '100%', sm: 'auto' },
+                pb: { xs: 0.5, sm: 0 },
+              }}
+            >
               <Chip
                 size="small"
                 label={`${t('coach.filterAssignedGroups')} (${coachAssignedGroupIds.length})`}
                 color={sessionScope === 'assigned' ? 'primary' : 'default'}
                 variant={sessionScope === 'assigned' ? 'filled' : 'outlined'}
                 onClick={() => setSessionScope('assigned')}
+                sx={{ flexShrink: 0 }}
               />
               <Chip
                 size="small"
@@ -154,6 +179,7 @@ export const CoachPortalView: React.FC = () => {
                 color={sessionScope === 'all' ? 'primary' : 'default'}
                 variant={sessionScope === 'all' ? 'filled' : 'outlined'}
                 onClick={() => setSessionScope('all')}
+                sx={{ flexShrink: 0 }}
               />
               {groups.map((g) => (
                 <Chip
@@ -162,6 +188,7 @@ export const CoachPortalView: React.FC = () => {
                   label={g.name}
                   onClick={() => setSessionScope(g.id)}
                   sx={{
+                    flexShrink: 0,
                     bgcolor: sessionScope === g.id ? `${g.colorTag}20` : 'transparent',
                     color: sessionScope === g.id ? g.colorTag : 'text.secondary',
                     border:
@@ -358,10 +385,17 @@ export const CoachPortalView: React.FC = () => {
                   : '1px solid var(--mui-palette-divider)',
             }}
           >
-            <CardContent sx={{ p: 2.75 }}>
-              <Typography variant="h6" sx={{ fontWeight: 700, mb: 2 }}>
-                {t('coach.pendingVerificationsTitle', { count: pendingScorecards.length })}
-              </Typography>
+            <CardContent sx={{ p: { xs: 2, md: 2.75 } }}>
+              <Stack direction="row" spacing={1} sx={{ alignItems: 'center', mb: 2 }}>
+                <IconBadge
+                  size="sm"
+                  color="#F59E0B"
+                  icon={<HourglassTopIcon sx={{ fontSize: 17 }} />}
+                />
+                <Typography variant="h6" sx={{ fontWeight: 700 }}>
+                  {t('coach.pendingVerificationsTitle', { count: pendingScorecards.length })}
+                </Typography>
+              </Stack>
 
               {pendingScorecards.length === 0 ? (
                 <Typography variant="body2" sx={{ color: 'text.secondary' }}>
@@ -453,9 +487,10 @@ export const CoachPortalView: React.FC = () => {
                             color="primary"
                             startIcon={<VerifiedIcon />}
                             onClick={() => verifyScorecard(sc.id)}
-                            sx={{ mt: 2, fontWeight: 700 }}
+                            sx={{ mt: 2, fontWeight: 700, whiteSpace: 'nowrap' }}
                           >
-                            {t('coach.verifyBtn')} {passed ? '(+500 PTS & Level Up)' : ''}
+                            {t('coach.verifyBtn')}{' '}
+                            {passed ? t('coach.verifyLevelUpSuffix') : ''}
                           </Button>
                         </Box>
                       </Grid>
@@ -468,7 +503,7 @@ export const CoachPortalView: React.FC = () => {
 
           {/* Junior Progression Roster Table Filtered by Group */}
           <Card>
-            <CardContent sx={{ p: 2.75 }}>
+            <CardContent sx={{ p: { xs: 2, md: 2.75 } }}>
               <Stack
                 direction={{ xs: 'column', sm: 'row' }}
                 spacing={2}
@@ -478,17 +513,34 @@ export const CoachPortalView: React.FC = () => {
                   mb: 2,
                 }}
               >
-                <Typography variant="h6" sx={{ fontWeight: 700 }}>
-                  {t('coach.tabProgression')}
-                </Typography>
+                <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
+                  <IconBadge
+                    size="sm"
+                    icon={<TrendingUpIcon sx={{ fontSize: 17 }} />}
+                  />
+                  <Typography variant="h6" sx={{ fontWeight: 700 }}>
+                    {t('coach.tabProgression')}
+                  </Typography>
+                </Stack>
 
-                <Stack direction="row" spacing={0.75} useFlexGap sx={{ flexWrap: 'wrap' }}>
+                <Stack
+                  direction="row"
+                  spacing={0.75}
+                  useFlexGap
+                  sx={{
+                    flexWrap: { xs: 'nowrap', sm: 'wrap' },
+                    overflowX: { xs: 'auto', sm: 'visible' },
+                    width: { xs: '100%', sm: 'auto' },
+                    pb: { xs: 0.5, sm: 0 },
+                  }}
+                >
                   <Chip
                     size="small"
                     label={`${t('coach.filterAssignedGroups')} (${coachAssignedGroupIds.length})`}
                     color={groupFilter === 'assigned' ? 'primary' : 'default'}
                     variant={groupFilter === 'assigned' ? 'filled' : 'outlined'}
                     onClick={() => setGroupFilter('assigned')}
+                    sx={{ flexShrink: 0 }}
                   />
                   <Chip
                     size="small"
@@ -496,6 +548,7 @@ export const CoachPortalView: React.FC = () => {
                     color={groupFilter === 'all' ? 'primary' : 'default'}
                     variant={groupFilter === 'all' ? 'filled' : 'outlined'}
                     onClick={() => setGroupFilter('all')}
+                    sx={{ flexShrink: 0 }}
                   />
                   {groups.map((g) => (
                     <Chip
@@ -504,6 +557,7 @@ export const CoachPortalView: React.FC = () => {
                       label={g.name}
                       onClick={() => setGroupFilter(g.id)}
                       sx={{
+                        flexShrink: 0,
                         bgcolor: groupFilter === g.id ? `${g.colorTag}20` : 'transparent',
                         color: groupFilter === g.id ? g.colorTag : 'text.secondary',
                         border:
@@ -517,7 +571,14 @@ export const CoachPortalView: React.FC = () => {
               </Stack>
 
               <TableContainer>
-                <Table size="small">
+                <Table
+                  size="small"
+                  sx={{
+                    '& th, & td': {
+                      px: { xs: 0.75, sm: 1.5 },
+                    },
+                  }}
+                >
                   <TableHead>
                     <TableRow>
                       <TableCell>{t('coach.playerTable.player')}</TableCell>
@@ -582,10 +643,10 @@ export const CoachPortalView: React.FC = () => {
                               })}
                             </Stack>
                           </TableCell>
-                          <TableCell>
+                          <TableCell sx={{ whiteSpace: 'nowrap' }}>
                             <Chip
                               size="small"
-                              label={t(div.nameKey)}
+                              label={t(div.shortLabelKey)}
                               sx={{
                                 height: 24,
                                 bgcolor: `${div.badgeColor}14`,
@@ -595,7 +656,7 @@ export const CoachPortalView: React.FC = () => {
                               }}
                             />
                           </TableCell>
-                          <TableCell align="center">
+                          <TableCell align="center" sx={{ whiteSpace: 'nowrap' }}>
                             {pb !== null ? (
                               <Typography
                                 variant="body2"
@@ -615,13 +676,19 @@ export const CoachPortalView: React.FC = () => {
                               '—'
                             )}
                           </TableCell>
-                          <TableCell align="center" sx={{ fontWeight: 600 }}>
+                          <TableCell
+                            align="center"
+                            sx={{ fontWeight: 600, whiteSpace: 'nowrap' }}
+                          >
                             {p.attendanceCount}
                           </TableCell>
-                          <TableCell align="right" sx={{ fontWeight: 700 }}>
+                          <TableCell
+                            align="right"
+                            sx={{ fontWeight: 700, whiteSpace: 'nowrap' }}
+                          >
                             {p.xp} PTS
                           </TableCell>
-                          <TableCell align="right">
+                          <TableCell align="right" sx={{ whiteSpace: 'nowrap' }}>
                             {pendingForPlayer ? (
                               <Button
                                 size="small"
@@ -629,7 +696,7 @@ export const CoachPortalView: React.FC = () => {
                                 color="primary"
                                 startIcon={<VerifiedIcon sx={{ fontSize: 15 }} />}
                                 onClick={() => verifyScorecard(pendingForPlayer.id)}
-                                sx={{ py: 0.25, px: 1.25, fontSize: '0.75rem' }}
+                                sx={{ py: 0.25, px: 1.25, fontSize: '0.75rem', whiteSpace: 'nowrap' }}
                               >
                                 {t('coach.verifyShortBtn', {
                                   score: pendingForPlayer.totalStrokes,

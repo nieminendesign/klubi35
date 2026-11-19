@@ -43,7 +43,10 @@ import {
   Explore as ExploreIcon,
   Visibility as VisibilityIcon,
   Map as MapIcon,
+  Flag as FlagIcon,
+  FactCheck as FactCheckIcon,
 } from '@mui/icons-material';
+import { IconBadge } from '../components/IconBadge';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useApp } from '../context/AppContext';
@@ -347,19 +350,22 @@ export const PlayScorecardView: React.FC = () => {
     <Stack spacing={2.5}>
       {/* Top Setup Card: Course Info, Player, Division, Holes Count (3 / 6 / 9 / 1..9) */}
       <Card>
-        <CardContent sx={{ p: { xs: 2.25, md: 2.75 } }}>
+        <CardContent sx={{ p: { xs: 2, md: 2.75 } }}>
           <Stack spacing={2}>
-            <Box>
-              <Stack direction="row" spacing={1.25} sx={{ alignItems: 'center' }}>
-                <SportsGolfIcon color="primary" />
-                <Typography variant="h5" sx={{ fontWeight: 800 }}>
+            <Stack direction="row" spacing={1.5} sx={{ alignItems: 'center' }}>
+              <IconBadge
+                size="md"
+                icon={<SportsGolfIcon sx={{ fontSize: 22 }} />}
+              />
+              <Box sx={{ minWidth: 0 }}>
+                <Typography variant="h5" sx={{ fontWeight: 800, lineHeight: 1.15 }}>
                   {t('play.title')}
                 </Typography>
-              </Stack>
-              <Typography variant="body2" sx={{ color: 'text.secondary', mt: 0.5 }}>
-                {t('play.setupHint')}
-              </Typography>
-            </Box>
+                <Typography variant="body2" sx={{ color: 'text.secondary', mt: 0.35 }}>
+                  {t('play.setupHint')}
+                </Typography>
+              </Box>
+            </Stack>
 
             <Grid container spacing={2} sx={{ alignItems: 'center' }}>
               {currentUser.role !== 'player' && (
@@ -424,10 +430,30 @@ export const PlayScorecardView: React.FC = () => {
                     if (val !== null) setIsOfficialEvent(val === 'official');
                   }}
                 >
-                  <ToggleButton value="official" sx={{ fontWeight: 700, borderRadius: 1 }}>
+                  <ToggleButton
+                    value="official"
+                    sx={{
+                      fontWeight: 700,
+                      borderRadius: 1,
+                      whiteSpace: 'nowrap',
+                      fontSize: { xs: '0.76rem', sm: '0.84rem' },
+                      px: { xs: 0.75, sm: 1.5 },
+                    }}
+                  >
+                    <EmojiEventsIcon sx={{ fontSize: 16, mr: 0.6, color: '#F59E0B' }} />
                     {t('play.officialEventOption')}
                   </ToggleButton>
-                  <ToggleButton value="practice" sx={{ fontWeight: 600, borderRadius: 1 }}>
+                  <ToggleButton
+                    value="practice"
+                    sx={{
+                      fontWeight: 600,
+                      borderRadius: 1,
+                      whiteSpace: 'nowrap',
+                      fontSize: { xs: '0.76rem', sm: '0.84rem' },
+                      px: { xs: 0.75, sm: 1.5 },
+                    }}
+                  >
+                    <SportsGolfIcon sx={{ fontSize: 16, mr: 0.6 }} />
                     {t('play.practiceOption')}
                   </ToggleButton>
                 </ToggleButtonGroup>
@@ -461,19 +487,40 @@ export const PlayScorecardView: React.FC = () => {
                   >
                     <ToggleButton
                       value={3}
-                      sx={{ flex: 1, fontWeight: 700, borderRadius: 1 }}
+                      sx={{
+                        flex: 1,
+                        fontWeight: 700,
+                        borderRadius: 1,
+                        whiteSpace: 'nowrap',
+                        fontSize: { xs: '0.75rem', sm: '0.82rem' },
+                        px: { xs: 0.75, sm: 1.25 },
+                      }}
                     >
                       {t('play.holesOption3')}
                     </ToggleButton>
                     <ToggleButton
                       value={6}
-                      sx={{ flex: 1, fontWeight: 700, borderRadius: 1 }}
+                      sx={{
+                        flex: 1,
+                        fontWeight: 700,
+                        borderRadius: 1,
+                        whiteSpace: 'nowrap',
+                        fontSize: { xs: '0.75rem', sm: '0.82rem' },
+                        px: { xs: 0.75, sm: 1.25 },
+                      }}
                     >
                       {t('play.holesOption6')}
                     </ToggleButton>
                     <ToggleButton
                       value={9}
-                      sx={{ flex: 1, fontWeight: 700, borderRadius: 1 }}
+                      sx={{
+                        flex: 1,
+                        fontWeight: 700,
+                        borderRadius: 1,
+                        whiteSpace: 'nowrap',
+                        fontSize: { xs: '0.75rem', sm: '0.82rem' },
+                        px: { xs: 0.75, sm: 1.25 },
+                      }}
                     >
                       {t('play.holesOption9')}
                     </ToggleButton>
@@ -513,16 +560,30 @@ export const PlayScorecardView: React.FC = () => {
                   >
                     <ToggleButton
                       value="gps"
-                      sx={{ flex: 1, fontWeight: 700, fontSize: '0.8rem', borderRadius: 1 }}
+                      sx={{
+                        flex: 1,
+                        fontWeight: 700,
+                        fontSize: { xs: '0.75rem', sm: '0.82rem' },
+                        borderRadius: 1,
+                        whiteSpace: 'nowrap',
+                        px: { xs: 0.75, sm: 1.25 },
+                      }}
                     >
-                      <ExploreIcon sx={{ fontSize: 16, mr: 0.75 }} />
+                      <ExploreIcon sx={{ fontSize: 16, mr: 0.6 }} />
                       {t('play.gpsModeNavigate')}
                     </ToggleButton>
                     <ToggleButton
                       value="visual"
-                      sx={{ flex: 1, fontWeight: 700, fontSize: '0.8rem', borderRadius: 1 }}
+                      sx={{
+                        flex: 1,
+                        fontWeight: 700,
+                        fontSize: { xs: '0.75rem', sm: '0.82rem' },
+                        borderRadius: 1,
+                        whiteSpace: 'nowrap',
+                        px: { xs: 0.75, sm: 1.25 },
+                      }}
                     >
-                      <VisibilityIcon sx={{ fontSize: 16, mr: 0.75 }} />
+                      <VisibilityIcon sx={{ fontSize: 16, mr: 0.6 }} />
                       {t('play.gpsModeVisual')}
                     </ToggleButton>
                   </ToggleButtonGroup>
@@ -725,9 +786,15 @@ export const PlayScorecardView: React.FC = () => {
                 }}
               >
                 <Box>
-                  <Typography variant="h4" sx={{ fontWeight: 800 }}>
-                    {t('play.holeTitle', { number: activeHole.holeNumber })}
-                  </Typography>
+                  <Stack direction="row" spacing={1} sx={{ alignItems: 'center', mb: 0.35 }}>
+                    <IconBadge
+                      size="sm"
+                      icon={<FlagIcon sx={{ fontSize: 17 }} />}
+                    />
+                    <Typography variant="h4" sx={{ fontWeight: 800 }}>
+                      {t('play.holeTitle', { number: activeHole.holeNumber })}
+                    </Typography>
+                  </Stack>
                   <Typography
                     variant="caption"
                     sx={{ color: 'primary.main', fontWeight: 700, display: 'block' }}
@@ -1199,7 +1266,7 @@ export const PlayScorecardView: React.FC = () => {
                     disabled={activeHoleIndex === 0}
                     startIcon={<ArrowBackIcon />}
                     onClick={() => setActiveHoleIndex((i) => Math.max(0, i - 1))}
-                    sx={{ borderColor: 'var(--mui-palette-divider)' }}
+                    sx={{ borderColor: 'var(--mui-palette-divider)', whiteSpace: 'nowrap' }}
                   >
                     {t('play.prevHole')}
                   </Button>
@@ -1211,11 +1278,17 @@ export const PlayScorecardView: React.FC = () => {
                       disabled={!isRoundComplete}
                       startIcon={<EmojiEventsIcon />}
                       onClick={() => void handleSubmitRound()}
-                      sx={{ fontWeight: 700 }}
+                      sx={{ fontWeight: 700, whiteSpace: 'nowrap' }}
                     >
                       {isRoundComplete
-                        ? `${t('play.submitRoundBtn', { totalHoles: holesToPlay })} (${totalStrokes} / ${roundTargetStrokes})`
-                        : `${t('play.submitRoundBtn', { totalHoles: holesToPlay })} (${playedHolesCount} / ${holesToPlay})`}
+                        ? t('play.submitShortBtn', {
+                            strokes: totalStrokes,
+                            target: roundTargetStrokes,
+                          })
+                        : t('play.submitShortIncompleteBtn', {
+                            played: playedHolesCount,
+                            totalHoles: holesToPlay,
+                          })}
                     </Button>
                   ) : (
                     <Button
@@ -1225,6 +1298,7 @@ export const PlayScorecardView: React.FC = () => {
                       onClick={() =>
                         setActiveHoleIndex((i) => Math.min(holesToPlay - 1, i + 1))
                       }
+                      sx={{ whiteSpace: 'nowrap' }}
                     >
                       {t('play.nextHole')}
                     </Button>
@@ -1238,30 +1312,54 @@ export const PlayScorecardView: React.FC = () => {
         {/* Right: Scorecard Overview & Submit */}
         <Grid size={{ xs: 12, md: 6 }}>
           <Card sx={{ height: '100%' }}>
-            <CardContent sx={{ p: { xs: 2.25, md: 3 } }}>
+            <CardContent sx={{ p: { xs: 2, md: 3 } }}>
               <Stack
                 direction="row"
+                spacing={1}
                 sx={{
                   justifyContent: 'space-between',
                   alignItems: 'center',
                   mb: 1.5,
                 }}
               >
-                <Typography variant="h6" sx={{ fontWeight: 700 }}>
-                  {t('play.scorecardSummaryTitle', { totalHoles: holesToPlay })}
-                </Typography>
+                <Stack direction="row" spacing={1} sx={{ alignItems: 'center', minWidth: 0 }}>
+                  <IconBadge
+                    size="sm"
+                    color="#38BDF8"
+                    icon={<FactCheckIcon sx={{ fontSize: 17 }} />}
+                  />
+                  <Typography
+                    variant="h6"
+                    sx={{
+                      fontWeight: 700,
+                      whiteSpace: 'nowrap',
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
+                    }}
+                  >
+                    {t('play.scorecardSummaryTitle', { totalHoles: holesToPlay })}
+                  </Typography>
+                </Stack>
 
                 <Chip
                   size="small"
                   variant="outlined"
                   label={`${playedHolesCount} / ${holesToPlay}`}
                   color={isRoundComplete ? 'primary' : 'default'}
-                  sx={{ fontWeight: 700 }}
+                  sx={{ fontWeight: 700, whiteSpace: 'nowrap', flexShrink: 0 }}
                 />
               </Stack>
 
               <TableContainer sx={{ mb: 2 }}>
-                <Table size="small">
+                <Table
+                  size="small"
+                  sx={{
+                    '& th, & td': {
+                      px: { xs: 0.75, sm: 1.5 },
+                      whiteSpace: 'nowrap',
+                    },
+                  }}
+                >
                   <TableHead>
                     <TableRow>
                       <TableCell>{t('play.holeHeader')}</TableCell>

@@ -120,13 +120,38 @@ export const AuthModal: React.FC<{
       fullWidth
     >
       <DialogTitle sx={{ fontWeight: 800, pb: 1 }}>
-        {t('auth.title')}
-        <Typography
-          variant="caption"
-          sx={{ display: 'block', color: 'text.secondary', mt: 0.25 }}
-        >
-          {t('auth.subtitle')}
-        </Typography>
+        <Stack direction="row" spacing={1.25} sx={{ alignItems: 'center' }}>
+          <Box
+            sx={{
+              width: 34,
+              height: 34,
+              borderRadius: 1,
+              bgcolor: 'primary.main',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              color: 'primary.contrastText',
+              fontWeight: 900,
+              fontSize: '0.95rem',
+              fontFamily: '"Outfit", sans-serif',
+              letterSpacing: '-0.03em',
+              flexShrink: 0,
+            }}
+          >
+            35
+          </Box>
+          <Box sx={{ minWidth: 0 }}>
+            <Typography variant="h6" sx={{ fontWeight: 800, lineHeight: 1.15 }}>
+              {t('auth.title')}
+            </Typography>
+            <Typography
+              variant="caption"
+              sx={{ display: 'block', color: 'text.secondary', mt: 0.25 }}
+            >
+              {t('auth.subtitle')}
+            </Typography>
+          </Box>
+        </Stack>
 
         <Tabs
           value={tab}
@@ -137,12 +162,12 @@ export const AuthModal: React.FC<{
           <Tab
             value="signin"
             label={t('auth.tabSignIn')}
-            sx={{ fontWeight: 700, fontSize: '0.82rem' }}
+            sx={{ fontWeight: 700, fontSize: '0.82rem', whiteSpace: 'nowrap' }}
           />
           <Tab
             value="register"
             label={t('auth.tabRegister')}
-            sx={{ fontWeight: 700, fontSize: '0.82rem' }}
+            sx={{ fontWeight: 700, fontSize: '0.82rem', whiteSpace: 'nowrap' }}
           />
         </Tabs>
       </DialogTitle>

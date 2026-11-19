@@ -110,7 +110,15 @@ export const LevelUpModal: React.FC = () => {
             <EmojiEventsIcon sx={{ fontSize: 44, color: newDivision.badgeColor }} />
           </Box>
 
-          <Typography variant="h4" sx={{ fontWeight: 800, color: '#FFFFFF' }}>
+          <Typography
+            variant="h4"
+            sx={{
+              fontWeight: 800,
+              color: '#FFFFFF',
+              fontSize: { xs: '1.35rem', sm: '1.9rem' },
+              lineHeight: 1.2,
+            }}
+          >
             {t('levelUpModal.title', { name: levelUpCelebration.playerName })}
           </Typography>
 

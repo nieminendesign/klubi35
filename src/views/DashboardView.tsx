@@ -24,13 +24,19 @@ import {
   Cancel as CancelIcon,
   Place as PlaceIcon,
   AccessTime as AccessTimeIcon,
-  TrendingDown as TrendingDownIcon,
   Bolt as BoltIcon,
   Verified as VerifiedIcon,
   HourglassTop as HourglassTopIcon,
   History as HistoryIcon,
   Close as CloseIcon,
+  Flag as FlagIcon,
+  ArrowForward as ArrowForwardIcon,
+  TrackChanges as TrackChangesIcon,
+  EventAvailable as EventAvailableIcon,
+  Assignment as AssignmentIcon,
+  Route as RouteIcon,
 } from '@mui/icons-material';
+import { IconBadge } from '../components/IconBadge';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useApp } from '../context/AppContext';
@@ -177,8 +183,8 @@ export const DashboardView: React.FC = () => {
           borderTop: `3px solid ${currentDiv.badgeColor}`,
         }}
       >
-        <CardContent sx={{ p: { xs: 2.5, md: 3.5 } }}>
-          <Grid container spacing={3} sx={{ alignItems: 'stretch' }}>
+        <CardContent sx={{ p: { xs: 2, sm: 2.5, md: 3.5 } }}>
+          <Grid container spacing={{ xs: 2, md: 3 }} sx={{ alignItems: 'stretch' }}>
             <Grid size={{ xs: 12, lg: 8 }}>
               <Stack spacing={2} sx={{ height: '100%', justifyContent: 'space-between' }}>
                 <Box sx={{ minWidth: 0 }}>
@@ -215,11 +221,13 @@ export const DashboardView: React.FC = () => {
                   >
                     <Chip
                       size="small"
+                      icon={<FlagIcon sx={{ fontSize: '14px !important', color: 'primary.main' }} />}
                       label={t('divisions.targetInfo')}
                       sx={{
                         height: 24,
                         fontSize: '0.73rem',
                         fontWeight: 700,
+                        whiteSpace: 'nowrap',
                         bgcolor: 'action.hover',
                         color: 'text.secondary',
                         border: '1px solid var(--mui-palette-divider)',
@@ -237,6 +245,7 @@ export const DashboardView: React.FC = () => {
                             height: 24,
                             fontSize: '0.73rem',
                             fontWeight: 700,
+                            whiteSpace: 'nowrap',
                             bgcolor: 'action.hover',
                             color: 'text.secondary',
                             border: '1px solid var(--mui-palette-divider)',
@@ -257,10 +266,10 @@ export const DashboardView: React.FC = () => {
                   </Stack>
                 </Box>
 
-                {/* Unified Current Level, Next Level & Target 36 Personal Best Card */}
+                {/* Unified Current Level, Next Level & Target 35 Personal Best Card */}
                 <Box
                   sx={{
-                    p: 2.25,
+                    p: { xs: 1.75, sm: 2.25 },
                     borderRadius: 1.5,
                     bgcolor: 'action.hover',
                     border: '1px solid var(--mui-palette-divider)',
@@ -269,12 +278,12 @@ export const DashboardView: React.FC = () => {
                 >
                   <Stack
                     direction={{ xs: 'column', sm: 'row' }}
-                    spacing={2.5}
+                    spacing={{ xs: 1.5, sm: 2.5 }}
                     sx={{
                       alignItems: { xs: 'flex-start', sm: 'center' },
                     }}
                   >
-                    <Box sx={{ minWidth: 200 }}>
+                    <Box sx={{ minWidth: { xs: 0, sm: 200 } }}>
                       <Typography
                         variant="caption"
                         sx={{
@@ -289,7 +298,7 @@ export const DashboardView: React.FC = () => {
                       <Stack
                         direction="row"
                         spacing={1}
-                        sx={{ alignItems: 'center', mt: 0.5 }}
+                        sx={{ alignItems: 'center', mt: 0.4 }}
                       >
                         <Box
                           sx={{
@@ -297,11 +306,17 @@ export const DashboardView: React.FC = () => {
                             height: 10,
                             borderRadius: 0.5,
                             bgcolor: currentDiv.badgeColor,
+                            flexShrink: 0,
                           }}
                         />
                         <Typography
                           variant="h5"
-                          sx={{ fontWeight: 800, color: currentDiv.badgeColor }}
+                          sx={{
+                            fontWeight: 800,
+                            color: currentDiv.badgeColor,
+                            fontSize: { xs: '1.15rem', sm: '1.35rem' },
+                            whiteSpace: 'nowrap',
+                          }}
                         >
                           {t(currentDiv.nameKey)}
                         </Typography>
@@ -314,7 +329,7 @@ export const DashboardView: React.FC = () => {
                       sx={{ display: { xs: 'none', sm: 'block' } }}
                     />
 
-                    <Box>
+                    <Box sx={{ minWidth: 0 }}>
                       <Typography
                         variant="caption"
                         sx={{
@@ -329,15 +344,18 @@ export const DashboardView: React.FC = () => {
                       <Typography
                         variant="h6"
                         sx={{
-                          mt: 0.5,
+                          mt: 0.4,
                           fontWeight: 700,
+                          fontSize: { xs: '1.05rem', sm: '1.2rem' },
                           color: nextDiv ? 'text.primary' : 'success.main',
                         }}
                       >
                         {nextDiv ? (
-                          <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
-                            <span style={{ color: 'var(--mui-palette-text-secondary)' }}>→</span>
-                            <span>{t(nextDiv.nameKey)}</span>
+                          <Stack direction="row" spacing={0.85} sx={{ alignItems: 'center' }}>
+                            <ArrowForwardIcon
+                              sx={{ fontSize: 18, color: 'text.secondary', flexShrink: 0 }}
+                            />
+                            <span style={{ whiteSpace: 'nowrap' }}>{t(nextDiv.nameKey)}</span>
                             <Box
                               component="span"
                               sx={{
@@ -345,6 +363,7 @@ export const DashboardView: React.FC = () => {
                                 height: 8,
                                 borderRadius: '50%',
                                 bgcolor: nextDiv.badgeColor,
+                                flexShrink: 0,
                               }}
                             />
                           </Stack>
@@ -392,7 +411,7 @@ export const DashboardView: React.FC = () => {
               <Box
                 sx={{
                   height: '100%',
-                  p: 2.75,
+                  p: { xs: 2, md: 2.75 },
                   borderRadius: 1.5,
                   bgcolor: 'action.hover',
                   border: '1px solid var(--mui-palette-divider)',
@@ -403,7 +422,10 @@ export const DashboardView: React.FC = () => {
               >
                 <Box>
                   <Stack direction="row" spacing={1} sx={{ alignItems: 'center', mb: 1 }}>
-                    <SportsGolfIcon sx={{ fontSize: 22, color: 'primary.main' }} />
+                    <IconBadge
+                      size="sm"
+                      icon={<SportsGolfIcon sx={{ fontSize: 17 }} />}
+                    />
                     <Typography
                       variant="overline"
                       sx={{ fontWeight: 800, color: 'primary.main', letterSpacing: '0.06em' }}
@@ -414,7 +436,7 @@ export const DashboardView: React.FC = () => {
                   <Typography variant="h6" sx={{ fontWeight: 800, mb: 0.75 }}>
                     {t('dashboard.playCtaTitle')}
                   </Typography>
-                  <Typography variant="body2" sx={{ color: 'text.secondary', mb: 2.5 }}>
+                  <Typography variant="body2" sx={{ color: 'text.secondary', mb: 2.25 }}>
                     {t('dashboard.playCtaSubtitle')}
                   </Typography>
                 </Box>
@@ -429,6 +451,7 @@ export const DashboardView: React.FC = () => {
                     py: 1.4,
                     fontSize: '0.95rem',
                     fontWeight: 700,
+                    whiteSpace: 'nowrap',
                   }}
                 >
                   {t('dashboard.playCtaButton')}
@@ -438,27 +461,42 @@ export const DashboardView: React.FC = () => {
           </Grid>
 
           {/* 8-Level Visual Progression Stepper – Crisp & Focused */}
-          <Box sx={{ mt: 3, pt: 2.5, borderTop: '1px solid var(--mui-palette-divider)' }}>
+          <Box sx={{ mt: 2.75, pt: 2.25, borderTop: '1px solid var(--mui-palette-divider)' }}>
             <Stack
               direction="row"
+              spacing={1}
               sx={{
                 justifyContent: 'space-between',
                 alignItems: 'center',
                 mb: 1.25,
               }}
             >
+              <Stack direction="row" spacing={0.75} sx={{ alignItems: 'center', minWidth: 0 }}>
+                <RouteIcon sx={{ fontSize: 16, color: 'primary.main', flexShrink: 0 }} />
+                <Typography
+                  variant="caption"
+                  sx={{
+                    fontWeight: 700,
+                    color: 'text.secondary',
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.05em',
+                    whiteSpace: 'nowrap',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                  }}
+                >
+                  {t('dashboard.progressionStepperTitle')}
+                </Typography>
+              </Stack>
               <Typography
                 variant="caption"
                 sx={{
-                  fontWeight: 700,
-                  color: 'text.secondary',
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.05em',
+                  fontWeight: 800,
+                  color: currentDiv.badgeColor,
+                  whiteSpace: 'nowrap',
+                  flexShrink: 0,
                 }}
               >
-                {t('dashboard.progressionStepperTitle')}
-              </Typography>
-              <Typography variant="caption" sx={{ fontWeight: 800, color: currentDiv.badgeColor }}>
                 {t('divisions.levelProgress', {
                   current: activePlayer.currentDivision,
                   max: 8,
@@ -506,12 +544,7 @@ export const DashboardView: React.FC = () => {
                           {t('divisions.levelLabel', { level: div.level })}
                         </Typography>
                         {isCompleted && (
-                          <Typography
-                            variant="caption"
-                            sx={{ color: 'primary.main', fontWeight: 800, fontSize: '0.7rem' }}
-                          >
-                            ✓
-                          </Typography>
+                          <CheckCircleIcon sx={{ fontSize: 14, color: 'primary.main' }} />
                         )}
                         {isCurrent && (
                           <Box
@@ -548,15 +581,26 @@ export const DashboardView: React.FC = () => {
       </Card>
 
       {/* Quick KPI Stats Row */}
-      <Grid container spacing={2}>
+      <Grid container spacing={{ xs: 1.5, sm: 2 }}>
         <Grid size={{ xs: 6, sm: 3 }}>
           <Card sx={{ height: '100%' }}>
-            <CardContent sx={{ p: 2 }}>
-              <Stack direction="row" spacing={0.75} sx={{ alignItems: 'center', mb: 0.5 }}>
-                <BoltIcon sx={{ fontSize: 17, color: '#F59E0B' }} />
+            <CardContent sx={{ p: { xs: 1.5, sm: 2 } }}>
+              <Stack direction="row" spacing={0.75} sx={{ alignItems: 'center', mb: 0.75 }}>
+                <IconBadge
+                  size="xs"
+                  color="#F59E0B"
+                  icon={<BoltIcon sx={{ fontSize: 15 }} />}
+                />
                 <Typography
                   variant="caption"
-                  sx={{ color: 'text.secondary', fontWeight: 600, textTransform: 'uppercase' }}
+                  sx={{
+                    color: 'text.secondary',
+                    fontWeight: 700,
+                    fontSize: { xs: '0.72rem', sm: '0.78rem' },
+                    whiteSpace: 'nowrap',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                  }}
                 >
                   {t('dashboard.stats.xpTotal')}
                 </Typography>
@@ -570,12 +614,23 @@ export const DashboardView: React.FC = () => {
 
         <Grid size={{ xs: 6, sm: 3 }}>
           <Card sx={{ height: '100%' }}>
-            <CardContent sx={{ p: 2 }}>
-              <Stack direction="row" spacing={0.75} sx={{ alignItems: 'center', mb: 0.5 }}>
-                <CheckCircleIcon sx={{ fontSize: 17, color: 'primary.main' }} />
+            <CardContent sx={{ p: { xs: 1.5, sm: 2 } }}>
+              <Stack direction="row" spacing={0.75} sx={{ alignItems: 'center', mb: 0.75 }}>
+                <IconBadge
+                  size="xs"
+                  color="#10B981"
+                  icon={<EventAvailableIcon sx={{ fontSize: 14 }} />}
+                />
                 <Typography
                   variant="caption"
-                  sx={{ color: 'text.secondary', fontWeight: 600, textTransform: 'uppercase' }}
+                  sx={{
+                    color: 'text.secondary',
+                    fontWeight: 700,
+                    fontSize: { xs: '0.72rem', sm: '0.78rem' },
+                    whiteSpace: 'nowrap',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                  }}
                 >
                   {t('dashboard.stats.attendance')}
                 </Typography>
@@ -589,12 +644,23 @@ export const DashboardView: React.FC = () => {
 
         <Grid size={{ xs: 6, sm: 3 }}>
           <Card sx={{ height: '100%' }}>
-            <CardContent sx={{ p: 2 }}>
-              <Stack direction="row" spacing={0.75} sx={{ alignItems: 'center', mb: 0.5 }}>
-                <TrendingDownIcon sx={{ fontSize: 17, color: 'text.secondary' }} />
+            <CardContent sx={{ p: { xs: 1.5, sm: 2 } }}>
+              <Stack direction="row" spacing={0.75} sx={{ alignItems: 'center', mb: 0.75 }}>
+                <IconBadge
+                  size="xs"
+                  color="#38BDF8"
+                  icon={<SportsGolfIcon sx={{ fontSize: 14 }} />}
+                />
                 <Typography
                   variant="caption"
-                  sx={{ color: 'text.secondary', fontWeight: 600, textTransform: 'uppercase' }}
+                  sx={{
+                    color: 'text.secondary',
+                    fontWeight: 700,
+                    fontSize: { xs: '0.72rem', sm: '0.78rem' },
+                    whiteSpace: 'nowrap',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                  }}
                 >
                   {t('dashboard.stats.avgPutts')}
                 </Typography>
@@ -608,12 +674,23 @@ export const DashboardView: React.FC = () => {
 
         <Grid size={{ xs: 6, sm: 3 }}>
           <Card sx={{ height: '100%' }}>
-            <CardContent sx={{ p: 2 }}>
-              <Stack direction="row" spacing={0.75} sx={{ alignItems: 'center', mb: 0.5 }}>
-                <EmojiEventsIcon sx={{ fontSize: 17, color: 'primary.main' }} />
+            <CardContent sx={{ p: { xs: 1.5, sm: 2 } }}>
+              <Stack direction="row" spacing={0.75} sx={{ alignItems: 'center', mb: 0.75 }}>
+                <IconBadge
+                  size="xs"
+                  color="#10B981"
+                  icon={<TrackChangesIcon sx={{ fontSize: 14 }} />}
+                />
                 <Typography
                   variant="caption"
-                  sx={{ color: 'text.secondary', fontWeight: 600, textTransform: 'uppercase' }}
+                  sx={{
+                    color: 'text.secondary',
+                    fontWeight: 700,
+                    fontSize: { xs: '0.72rem', sm: '0.78rem' },
+                    whiteSpace: 'nowrap',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                  }}
                 >
                   {t('dashboard.stats.girPercent')}
                 </Typography>
@@ -644,22 +721,38 @@ export const DashboardView: React.FC = () => {
         {/* Next Training Card (Personalized) */}
         <Grid size={{ xs: 12, md: 5 }}>
           <Card sx={{ height: '100%' }}>
-            <CardContent sx={{ p: 2.75 }}>
+            <CardContent sx={{ p: { xs: 2, md: 2.75 } }}>
               <Stack
                 direction="row"
+                spacing={1}
                 sx={{
                   alignItems: 'center',
                   justifyContent: 'space-between',
                   mb: 2,
                 }}
               >
-                <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
-                  <CalendarMonthIcon fontSize="small" color="primary" />
-                  <Typography variant="h6" sx={{ fontWeight: 700 }}>
+                <Stack direction="row" spacing={1} sx={{ alignItems: 'center', minWidth: 0 }}>
+                  <IconBadge
+                    size="sm"
+                    icon={<CalendarMonthIcon sx={{ fontSize: 17 }} />}
+                  />
+                  <Typography
+                    variant="h6"
+                    sx={{
+                      fontWeight: 700,
+                      whiteSpace: 'nowrap',
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
+                    }}
+                  >
                     {t('dashboard.nextTrainingTitle')}
                   </Typography>
                 </Stack>
-                <Button size="small" onClick={() => navigate('/calendar')}>
+                <Button
+                  size="small"
+                  onClick={() => navigate('/calendar')}
+                  sx={{ whiteSpace: 'nowrap', flexShrink: 0 }}
+                >
                   {t('dashboard.viewFullCalendar')}
                 </Button>
               </Stack>
@@ -728,6 +821,7 @@ export const DashboardView: React.FC = () => {
                       color="primary"
                       startIcon={<CheckCircleIcon />}
                       onClick={() => toggleRsvp(nextSession.id, activePlayer.id, true)}
+                      sx={{ whiteSpace: 'nowrap' }}
                     >
                       {t('dashboard.rsvpAttending')}
                     </Button>
@@ -738,6 +832,7 @@ export const DashboardView: React.FC = () => {
                       startIcon={<CancelIcon />}
                       onClick={() => toggleRsvp(nextSession.id, activePlayer.id, false)}
                       sx={{
+                        whiteSpace: 'nowrap',
                         borderColor: 'var(--mui-palette-divider)',
                         color: isDeclinedNext ? 'error.main' : 'text.secondary',
                       }}
@@ -758,7 +853,7 @@ export const DashboardView: React.FC = () => {
         {/* Recent 9-Hole Scorecards & Stroke Trend */}
         <Grid size={{ xs: 12, md: 7 }}>
           <Card sx={{ height: '100%' }}>
-            <CardContent sx={{ p: 2.75 }}>
+            <CardContent sx={{ p: { xs: 2, md: 2.75 } }}>
               <Stack
                 direction="row"
                 sx={{
@@ -769,17 +864,32 @@ export const DashboardView: React.FC = () => {
                   mb: 2,
                 }}
               >
-                <Typography variant="h6" sx={{ fontWeight: 700 }}>
-                  {t('dashboard.recentRoundsTitle')}
-                </Typography>
+                <Stack direction="row" spacing={1} sx={{ alignItems: 'center', minWidth: 0 }}>
+                  <IconBadge
+                    size="sm"
+                    color="#38BDF8"
+                    icon={<AssignmentIcon sx={{ fontSize: 17 }} />}
+                  />
+                  <Typography
+                    variant="h6"
+                    sx={{
+                      fontWeight: 700,
+                      whiteSpace: 'nowrap',
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
+                    }}
+                  >
+                    {t('dashboard.recentRoundsTitle')}
+                  </Typography>
+                </Stack>
 
-                <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
+                <Stack direction="row" spacing={1} sx={{ alignItems: 'center', flexShrink: 0 }}>
                   {overallBestScore !== null && (
                     <Chip
                       size="small"
                       label={`${t('dashboard.stats.bestScore')}: ${overallBestScore}`}
                       variant="outlined"
-                      sx={{ fontWeight: 700 }}
+                      sx={{ fontWeight: 700, whiteSpace: 'nowrap' }}
                     />
                   )}
                   {playerScorecards.length > 0 && (
@@ -787,6 +897,7 @@ export const DashboardView: React.FC = () => {
                       size="small"
                       startIcon={<HistoryIcon fontSize="small" />}
                       onClick={() => setAllRoundsDialogOpen(true)}
+                      sx={{ whiteSpace: 'nowrap', flexShrink: 0 }}
                     >
                       {t('dashboard.viewAllRounds', {
                         count: playerScorecards.length,
@@ -811,7 +922,7 @@ export const DashboardView: React.FC = () => {
                       <Box
                         key={sc.id}
                         sx={{
-                          p: 1.75,
+                          p: { xs: 1.5, sm: 1.75 },
                           borderRadius: 1.25,
                           bgcolor: 'action.hover',
                           border: '1px solid var(--mui-palette-divider)',
@@ -901,19 +1012,23 @@ export const DashboardView: React.FC = () => {
                           {/* Score & Stats Pill */}
                           <Stack
                             direction="row"
-                            spacing={2}
-                            sx={{ alignItems: 'center' }}
+                            spacing={1.5}
+                            sx={{ alignItems: 'center', maxWidth: '100%' }}
                           >
-                            <Box sx={{ textAlign: 'right' }}>
+                            <Box sx={{ textAlign: 'right', minWidth: 0 }}>
                               <Typography
                                 variant="caption"
-                                sx={{ color: 'text.secondary', display: 'block' }}
+                                sx={{ color: 'text.secondary', display: 'block', whiteSpace: 'nowrap' }}
                               >
                                 {sc.totalPutts} {t('dashboard.puttsUnit')} • GIR{' '}
                                 {sc.totalGir}/{holesPlayedCount}
                               </Typography>
                               {/* Hole-by-hole mini strip */}
-                              <Stack direction="row" spacing={0.35} sx={{ mt: 0.4 }}>
+                              <Stack
+                                direction="row"
+                                spacing={0.35}
+                                sx={{ mt: 0.4, overflowX: 'auto', maxWidth: '100%' }}
+                              >
                                 {sc.holes.map((h) => {
                                   const holePar = getDefaultHolePar(h.holeNumber);
                                   return (
@@ -922,6 +1037,7 @@ export const DashboardView: React.FC = () => {
                                       sx={{
                                         width: 17,
                                         height: 17,
+                                        flexShrink: 0,
                                         borderRadius: 0.5,
                                         fontSize: '0.64rem',
                                         fontWeight: 700,

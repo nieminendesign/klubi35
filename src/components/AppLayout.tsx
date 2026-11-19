@@ -62,12 +62,14 @@ export const AppLayout: React.FC<{ children: React.ReactNode }> = ({ children })
     {
       path: '/dashboard',
       label: t('nav.dashboard'),
+      mobileLabel: t('nav.mobileDashboard'),
       icon: <DashboardIcon fontSize="small" />,
       visible: true,
     },
     {
       path: '/play',
       label: t('nav.play'),
+      mobileLabel: t('nav.mobilePlay'),
       icon: <SportsGolfIcon fontSize="small" />,
       highlight: true,
       visible: true,
@@ -75,12 +77,14 @@ export const AppLayout: React.FC<{ children: React.ReactNode }> = ({ children })
     {
       path: '/calendar',
       label: t('nav.calendar'),
+      mobileLabel: t('nav.mobileCalendar'),
       icon: <CalendarMonthIcon fontSize="small" />,
       visible: true,
     },
     {
       path: '/coach',
       label: t('nav.coach'),
+      mobileLabel: t('nav.mobileCoach'),
       icon: (
         <Badge badgeContent={pendingVerificationsCount} color="secondary">
           <FactCheckIcon fontSize="small" />
@@ -91,12 +95,14 @@ export const AppLayout: React.FC<{ children: React.ReactNode }> = ({ children })
     {
       path: '/admin',
       label: t('nav.admin'),
+      mobileLabel: t('nav.mobileAdmin'),
       icon: <AdminPanelSettingsIcon fontSize="small" />,
       visible: isAdmin,
     },
     {
       path: '/leaderboard',
       label: t('nav.leaderboard'),
+      mobileLabel: t('nav.mobileLeaderboard'),
       icon: <EmojiEventsIcon fontSize="small" />,
       visible: true,
     },
@@ -220,16 +226,16 @@ export const AppLayout: React.FC<{ children: React.ReactNode }> = ({ children })
             sx={{
               alignItems: 'center',
               justifyContent: 'space-between',
-              flexWrap: 'wrap',
-              gap: 2,
+              flexWrap: 'nowrap',
+              gap: 1.25,
             }}
           >
             {/* Brand Logo & Title */}
             <Stack
               direction="row"
-              spacing={1.5}
+              spacing={1.25}
               onClick={() => navigate('/dashboard')}
-              sx={{ alignItems: 'center', cursor: 'pointer' }}
+              sx={{ alignItems: 'center', cursor: 'pointer', minWidth: 0 }}
             >
               <Box
                 sx={{
@@ -245,15 +251,34 @@ export const AppLayout: React.FC<{ children: React.ReactNode }> = ({ children })
                   fontSize: '1.05rem',
                   fontFamily: '"Outfit", sans-serif',
                   letterSpacing: '-0.03em',
+                  flexShrink: 0,
                 }}
               >
                 35
               </Box>
-              <Box>
-                <Typography variant="h6" sx={{ fontWeight: 800, lineHeight: 1.1 }}>
+              <Box sx={{ minWidth: 0 }}>
+                <Typography
+                  variant="h6"
+                  sx={{
+                    fontWeight: 800,
+                    lineHeight: 1.1,
+                    fontSize: { xs: '1rem', sm: '1.15rem' },
+                    whiteSpace: 'nowrap',
+                  }}
+                >
                   {t('app.title')}
                 </Typography>
-                <Typography variant="caption" sx={{ color: 'text.secondary', display: 'block' }}>
+                <Typography
+                  variant="caption"
+                  sx={{
+                    color: 'text.secondary',
+                    display: 'block',
+                    fontSize: { xs: '0.68rem', sm: '0.75rem' },
+                    whiteSpace: 'nowrap',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                  }}
+                >
                   {t('app.subtitle')}
                 </Typography>
               </Box>
@@ -319,7 +344,7 @@ export const AppLayout: React.FC<{ children: React.ReactNode }> = ({ children })
             </Stack>
 
             {/* Right: Active User Status Indicators */}
-            <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
+            <Stack direction="row" spacing={1} sx={{ alignItems: 'center', flexShrink: 0 }}>
               <Chip
                 size="small"
                 icon={<BoltIcon sx={{ color: '#F59E0B !important', fontSize: '16px !important' }} />}
@@ -364,7 +389,7 @@ export const AppLayout: React.FC<{ children: React.ReactNode }> = ({ children })
       </Box>
 
       {/* Main Page Content */}
-      <Container maxWidth="xl" sx={{ pt: { xs: 2.5, md: 3 }, px: { xs: 2, md: 3 } }}>
+      <Container maxWidth="xl" sx={{ pt: { xs: 1.75, md: 2.5 }, px: { xs: 1.5, sm: 2, md: 3 } }}>
         {children}
       </Container>
 
@@ -392,14 +417,23 @@ export const AppLayout: React.FC<{ children: React.ReactNode }> = ({ children })
             <BottomNavigationAction
               key={item.path}
               value={item.path}
-              label={item.label}
+              label={item.mobileLabel}
               icon={item.icon}
               sx={{
-                minWidth: 50,
-                px: 0.5,
+                minWidth: 0,
+                flex: 1,
+                px: 0.25,
                 '& .MuiBottomNavigationAction-label': {
-                  fontSize: '0.66rem',
+                  fontSize: '0.64rem',
                   fontWeight: 600,
+                  whiteSpace: 'nowrap',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  maxWidth: '100%',
+                  '&.Mui-selected': {
+                    fontSize: '0.65rem',
+                    fontWeight: 700,
+                  },
                 },
               }}
             />

@@ -48,6 +48,7 @@ import {
   Restore as RestoreIcon,
   Save as SaveIcon,
 } from '@mui/icons-material';
+import { IconBadge } from '../components/IconBadge';
 import { useTranslation } from 'react-i18next';
 import { useApp } from '../context/AppContext';
 import {
@@ -292,27 +293,27 @@ export const AdminPortalView: React.FC = () => {
               mb: 1,
             }}
           >
-            <Box>
-              <Stack
-                direction="row"
-                spacing={1}
-                sx={{ alignItems: 'center', mb: 0.25 }}
-              >
-                <AdminPanelSettingsIcon color="primary" fontSize="small" />
-                <Typography variant="h5" sx={{ fontWeight: 800 }}>
+            <Stack direction="row" spacing={1.5} sx={{ alignItems: 'center' }}>
+              <IconBadge
+                size="md"
+                icon={<AdminPanelSettingsIcon sx={{ fontSize: 22 }} />}
+              />
+              <Box sx={{ minWidth: 0 }}>
+                <Typography variant="h5" sx={{ fontWeight: 800, lineHeight: 1.15 }}>
                   {t('admin.title')}
                 </Typography>
-              </Stack>
-              <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                {t('admin.subtitle')}
-              </Typography>
-            </Box>
+                <Typography variant="body2" sx={{ color: 'text.secondary', mt: 0.3 }}>
+                  {t('admin.subtitle')}
+                </Typography>
+              </Box>
+            </Stack>
 
             <Button
               variant="contained"
               color="primary"
               startIcon={<PersonAddIcon />}
               onClick={() => setAddUserOpen(true)}
+              sx={{ whiteSpace: 'nowrap', flexShrink: 0 }}
             >
               {t('admin.addUserBtn')}
             </Button>
@@ -324,9 +325,24 @@ export const AdminPortalView: React.FC = () => {
             variant="scrollable"
             scrollButtons="auto"
           >
-            <Tab label={t('admin.tabGroups')} sx={{ fontWeight: 700 }} />
-            <Tab label={t('admin.tabSchedule')} sx={{ fontWeight: 700 }} />
-            <Tab label={t('admin.tabCourse')} sx={{ fontWeight: 700 }} />
+            <Tab
+              icon={<PeopleIcon fontSize="small" />}
+              iconPosition="start"
+              label={t('admin.tabGroups')}
+              sx={{ fontWeight: 700 }}
+            />
+            <Tab
+              icon={<EventRepeatIcon fontSize="small" />}
+              iconPosition="start"
+              label={t('admin.tabSchedule')}
+              sx={{ fontWeight: 700 }}
+            />
+            <Tab
+              icon={<GolfCourseIcon fontSize="small" />}
+              iconPosition="start"
+              label={t('admin.tabCourse')}
+              sx={{ fontWeight: 700 }}
+            />
           </Tabs>
         </CardContent>
       </Card>
@@ -337,13 +353,16 @@ export const AdminPortalView: React.FC = () => {
           {/* Create / Edit Group Form + Group List */}
           <Grid size={{ xs: 12, lg: 5 }}>
             <Card>
-              <CardContent sx={{ p: 2.75 }}>
+              <CardContent sx={{ p: { xs: 2, md: 2.75 } }}>
                 <Stack
                   direction="row"
                   spacing={1}
                   sx={{ alignItems: 'center', mb: 2 }}
                 >
-                  <GroupAddIcon color="primary" fontSize="small" />
+                  <IconBadge
+                    size="sm"
+                    icon={<GroupAddIcon sx={{ fontSize: 17 }} />}
+                  />
                   <Typography variant="h6" sx={{ fontWeight: 700 }}>
                     {t('admin.createGroupTitle')}
                   </Typography>
@@ -556,9 +575,16 @@ export const AdminPortalView: React.FC = () => {
                     mb: 2,
                   }}
                 >
-                  <Typography variant="h6" sx={{ fontWeight: 700 }}>
-                    {t('admin.rosterTitle')} ({users.length})
-                  </Typography>
+                  <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
+                    <IconBadge
+                      size="sm"
+                      color="#38BDF8"
+                      icon={<PeopleIcon sx={{ fontSize: 17 }} />}
+                    />
+                    <Typography variant="h6" sx={{ fontWeight: 700 }}>
+                      {t('admin.rosterTitle')} ({users.length})
+                    </Typography>
+                  </Stack>
 
                   <Stack
                     direction="row"
@@ -601,6 +627,7 @@ export const AdminPortalView: React.FC = () => {
                       variant="outlined"
                       startIcon={<PersonAddIcon />}
                       onClick={() => setAddUserOpen(true)}
+                      sx={{ whiteSpace: 'nowrap' }}
                     >
                       {t('admin.addUserBtn')}
                     </Button>
@@ -899,13 +926,16 @@ export const AdminPortalView: React.FC = () => {
         <Grid container spacing={2.5}>
           <Grid size={{ xs: 12, md: 5 }}>
             <Card>
-              <CardContent sx={{ p: 2.75 }}>
+              <CardContent sx={{ p: { xs: 2, md: 2.75 } }}>
                 <Stack
                   direction="row"
                   spacing={1}
                   sx={{ alignItems: 'center', mb: 2 }}
                 >
-                  <EventRepeatIcon color="primary" fontSize="small" />
+                  <IconBadge
+                    size="sm"
+                    icon={<EventRepeatIcon sx={{ fontSize: 17 }} />}
+                  />
                   <Typography variant="h6" sx={{ fontWeight: 700 }}>
                     {t('admin.scheduleBuilderTitle')}
                   </Typography>
@@ -1244,13 +1274,16 @@ export const AdminPortalView: React.FC = () => {
               {/* Left Column: Course General Info & Default Hole Count */}
               <Grid size={{ xs: 12, lg: 4 }}>
                 <Card>
-                  <CardContent sx={{ p: 2.75 }}>
+                  <CardContent sx={{ p: { xs: 2, md: 2.75 } }}>
                     <Stack
                       direction="row"
                       spacing={1}
                       sx={{ alignItems: 'center', mb: 1 }}
                     >
-                      <GolfCourseIcon color="primary" fontSize="small" />
+                      <IconBadge
+                        size="sm"
+                        icon={<GolfCourseIcon sx={{ fontSize: 17 }} />}
+                      />
                       <Typography variant="h6" sx={{ fontWeight: 700 }}>
                         {t('admin.courseConfigTitle')}
                       </Typography>

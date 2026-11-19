@@ -24,7 +24,9 @@ import {
   Cancel as CancelIcon,
   HowToReg as HowToRegIcon,
   EmojiEvents as EmojiEventsIcon,
+  SportsGolf as SportsGolfIcon,
 } from '@mui/icons-material';
+import { IconBadge } from '../components/IconBadge';
 import { useTranslation } from 'react-i18next';
 import { useApp } from '../context/AppContext';
 import { getDivisionByLevel, type TrainingSession } from '../types/models';
@@ -83,22 +85,35 @@ export const CalendarView: React.FC = () => {
               alignItems: { xs: 'flex-start', md: 'center' },
             }}
           >
-            <Box>
-              <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
-                <CalendarMonthIcon color="primary" fontSize="small" />
-                <Typography variant="h5" sx={{ fontWeight: 800 }}>
+            <Stack direction="row" spacing={1.5} sx={{ alignItems: 'center' }}>
+              <IconBadge
+                size="md"
+                icon={<CalendarMonthIcon sx={{ fontSize: 22 }} />}
+              />
+              <Box sx={{ minWidth: 0 }}>
+                <Typography variant="h5" sx={{ fontWeight: 800, lineHeight: 1.15 }}>
                   {t('calendar.title')}
                 </Typography>
-              </Stack>
-              <Typography variant="body2" sx={{ color: 'text.secondary', mt: 0.25 }}>
-                {currentUser.role === 'player'
-                  ? t('calendar.subtitlePlayer', { groups: myGroupNames || '—' })
-                  : t('calendar.subtitleStaff')}
-              </Typography>
-            </Box>
+                <Typography variant="body2" sx={{ color: 'text.secondary', mt: 0.3 }}>
+                  {currentUser.role === 'player'
+                    ? t('calendar.subtitlePlayer', { groups: myGroupNames || '—' })
+                    : t('calendar.subtitleStaff')}
+                </Typography>
+              </Box>
+            </Stack>
 
             {/* Filter Chips */}
-            <Stack direction="row" spacing={0.75} useFlexGap sx={{ flexWrap: 'wrap' }}>
+            <Stack
+              direction="row"
+              spacing={0.75}
+              useFlexGap
+              sx={{
+                flexWrap: { xs: 'nowrap', sm: 'wrap' },
+                overflowX: { xs: 'auto', sm: 'visible' },
+                width: { xs: '100%', md: 'auto' },
+                pb: { xs: 0.5, sm: 0 },
+              }}
+            >
               {currentUser.role === 'player' && (
                 <Chip
                   size="small"
@@ -106,6 +121,7 @@ export const CalendarView: React.FC = () => {
                   color={selectedGroupFilter === 'my_groups' ? 'primary' : 'default'}
                   variant={selectedGroupFilter === 'my_groups' ? 'filled' : 'outlined'}
                   onClick={() => setSelectedGroupFilter('my_groups')}
+                  sx={{ flexShrink: 0 }}
                 />
               )}
               <Chip
@@ -114,6 +130,7 @@ export const CalendarView: React.FC = () => {
                 color={selectedGroupFilter === 'all' ? 'primary' : 'default'}
                 variant={selectedGroupFilter === 'all' ? 'filled' : 'outlined'}
                 onClick={() => setSelectedGroupFilter('all')}
+                sx={{ flexShrink: 0 }}
               />
               {groups.map((grp) => {
                 const isSelected = selectedGroupFilter === grp.id;
@@ -124,6 +141,7 @@ export const CalendarView: React.FC = () => {
                     label={grp.name}
                     onClick={() => setSelectedGroupFilter(grp.id)}
                     sx={{
+                      flexShrink: 0,
                       bgcolor: isSelected ? `${grp.colorTag}22` : 'transparent',
                       color: isSelected ? grp.colorTag : 'text.secondary',
                       border: isSelected
@@ -189,16 +207,22 @@ export const CalendarView: React.FC = () => {
                         icon={<EmojiEventsIcon sx={{ fontSize: '14px !important' }} />}
                         label={t('calendar.sessionTypeEvent')}
                         color="secondary"
-                        sx={{ height: 22, fontSize: '0.7rem', fontWeight: 700 }}
+                        sx={{ height: 22, fontSize: '0.7rem', fontWeight: 700, flexShrink: 0 }}
                       />
                     ) : (
-                      <Typography variant="caption" sx={{ color: 'text.secondary' }}>
-                        {t('calendar.sessionTypeTraining')}
-                      </Typography>
+                      <Stack direction="row" spacing={0.5} sx={{ alignItems: 'center', color: 'text.secondary', flexShrink: 0 }}>
+                        <SportsGolfIcon sx={{ fontSize: 14 }} />
+                        <Typography variant="caption" sx={{ whiteSpace: 'nowrap' }}>
+                          {t('calendar.sessionTypeTraining')}
+                        </Typography>
+                      </Stack>
                     )}
                   </Stack>
 
-                  <Typography variant="subtitle1" sx={{ fontWeight: 700, mb: 1.5, minHeight: 48 }}>
+                  <Typography
+                    variant="subtitle1"
+                    sx={{ fontWeight: 700, mb: 1.5, minHeight: { xs: 'auto', md: 44 } }}
+                  >
                     {session.title}
                   </Typography>
 
@@ -261,6 +285,7 @@ export const CalendarView: React.FC = () => {
                           color="primary"
                           startIcon={<CheckCircleIcon />}
                           onClick={() => toggleRsvp(session.id, currentUser.id, true)}
+                          sx={{ whiteSpace: 'nowrap' }}
                         >
                           {t('dashboard.rsvpAttending')}
                         </Button>
@@ -272,6 +297,7 @@ export const CalendarView: React.FC = () => {
                           startIcon={<CancelIcon />}
                           onClick={() => toggleRsvp(session.id, currentUser.id, false)}
                           sx={{
+                            whiteSpace: 'nowrap',
                             borderColor: 'var(--mui-palette-divider)',
                             color: isPlayerDeclined ? 'error.main' : 'text.secondary',
                           }}

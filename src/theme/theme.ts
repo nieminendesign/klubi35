@@ -155,6 +155,7 @@ export function buildAppTheme(language: SupportedLanguage) {
               paddingBottom: 8,
               paddingLeft: 16,
               paddingRight: 16,
+              lineHeight: 1.25,
               boxShadow: 'none',
               '&:hover': {
                 boxShadow: 'none',
@@ -164,6 +165,23 @@ export function buildAppTheme(language: SupportedLanguage) {
               borderRadius: 8,
               paddingTop: 11,
               paddingBottom: 11,
+            },
+          },
+        },
+        MuiTab: {
+          styleOverrides: {
+            root: {
+              minHeight: 44,
+              textTransform: 'none',
+              whiteSpace: 'nowrap',
+            },
+          },
+        },
+        MuiToggleButton: {
+          styleOverrides: {
+            root: {
+              textTransform: 'none',
+              lineHeight: 1.2,
             },
           },
         },
@@ -195,6 +213,7 @@ export function buildAppTheme(language: SupportedLanguage) {
               fontSize: '0.75rem',
               textTransform: 'uppercase',
               letterSpacing: '0.05em',
+              whiteSpace: 'nowrap',
             },
           },
         },
